@@ -52,22 +52,22 @@ namespace Grapevine
                 throw new ArgumentOutOfRangeException(nameof(startIndex), string.Format(OutOfRangeMsg, endIndex, MinPortNumber, MaxPortNumber));
             }
 
-            var useAscending = startIndex <= endIndex;
-
             // 2. Get a list of all ports that are currently in use
             var portsInUse = GetPortsInUse();
 
             // 3. Create the condition and iterator for the for loop
-            Func<int, bool> condition = useAscending
+            var useAscending = startIndex <= endIndex;
+
+            Func<int, bool> checkCondition = useAscending
                 ? (int i) => i <= endIndex
                 : (int i) => i >= endIndex;
 
-            Func<int, int> iterator = useAscending
+            Func<int, int> incrementIterator = useAscending
                 ? (int i) => ++i
                 : (int i) => --i;
 
             // 4. Search for next unused port
-            for (var i = startIndex; condition(i); i = iterator(i))
+            for (var i = startIndex; checkCondition(i); i = incrementIterator(i))
             {
                 if (portsInUse.Contains(i)) continue;
                 return i.ToString();
