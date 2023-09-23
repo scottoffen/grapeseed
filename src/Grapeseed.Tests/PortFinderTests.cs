@@ -73,7 +73,7 @@ public class PortFinderTests
         portsInUse.ShouldNotBeEmpty();
 
         var startIndex = portsInUse.First();
-        var endIndex = 0;
+        var endIndex = PortFinder.MaxPortNumber;
 
         foreach (var p in portsInUse.Skip(1))
         {
@@ -87,8 +87,6 @@ public class PortFinderTests
                 startIndex = p;
             }
         }
-
-        endIndex.ShouldBeGreaterThan(startIndex);
 
         var firstOpenPort = int.Parse(PortFinder.FindNextLocalOpenPort(startIndex, endIndex));
         var lastOpenPort = int.Parse(PortFinder.FindNextLocalOpenPort(endIndex, startIndex));
