@@ -2,10 +2,14 @@
 
 public class PortFinderTests
 {
-    [Fact]
-    public void GetPortsInUse_ReturnsNonEmptyList()
+    private readonly List<int> _portsInUse;
+
+    public PortFinderTests()
     {
-        PortFinder.GetPortsInUse().ShouldNotBeEmpty();
+        _portsInUse = PortFinder.GetPortsInUse().ToList();
+        _portsInUse.Sort();
+
+        _portsInUse.ShouldNotBeEmpty();
     }
 
     [Fact]
@@ -29,7 +33,7 @@ public class PortFinderTests
     [Fact]
     public void WhenNoMatchingPortIsFound_ThrowsException()
     {
-        var firstPortInUse = PortFinder.GetPortsInUse().First();
+        var firstPortInUse = _portsInUse.First();
 
         Should.Throw<IndexOutOfRangeException>(() =>
         {
@@ -40,7 +44,7 @@ public class PortFinderTests
     [Fact]
     public void FindNextLocalOpenPort_ReturnsValueFromMin()
     {
-        var firstPortInUse = PortFinder.GetPortsInUse().First(x => x > PortFinder.MinPortNumber);
+        var firstPortInUse = _portsInUse.First(x => x > PortFinder.MinPortNumber);
 
         var port = PortFinder.FindNextLocalOpenPort(PortFinder.MinPortNumber, firstPortInUse);
 
@@ -50,7 +54,8 @@ public class PortFinderTests
     [Fact]
     public void FindNextLocalOpenPort_ReturnsValueFromMax()
     {
-        var firstPortInUse = PortFinder.GetPortsInUse().Reverse().First(x => x < PortFinder.MaxPortNumber);
+        _portsInUse.Reverse();
+        var firstPortInUse = _portsInUse.First(x => x < PortFinder.MaxPortNumber);
 
         var port = PortFinder.FindNextLocalOpenPort(PortFinder.MaxPortNumber, firstPortInUse);
 
@@ -69,13 +74,10 @@ public class PortFinderTests
     [Fact]
     public void FindNextLocalOpenPort_AscDescReturnsDifferentValues()
     {
-        var portsInUse = PortFinder.GetPortsInUse();
-        portsInUse.ShouldNotBeEmpty();
+        var startIndex = _portsInUse.First();
+        var endIndex = 0;
 
-        var startIndex = portsInUse.First();
-        var endIndex = PortFinder.MaxPortNumber;
-
-        foreach (var p in portsInUse.Skip(1))
+        foreach (var p in _portsInUse.Skip(1))
         {
             if (p > (startIndex + 2))
             {
