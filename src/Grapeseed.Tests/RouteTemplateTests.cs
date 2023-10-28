@@ -1,30 +1,53 @@
 using Grapevine.Exceptions;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel.Engine.ClientProtocol;
 
 namespace Grapeseed.Tests;
 
 public class RouteTemplateTests
 {
     [Theory]
+    [InlineData("/{segment}/?x", "(?i)^/([^/]+)/\\?x/?$")]
+    [InlineData(@"/segment\x", @"(?i)^/segment\\x/?$")]
+    [InlineData("/segment*x", "(?i)^/segment\\*x/?$")]
+    [InlineData("/segment+x", "(?i)^/segment\\+x/?$")]
+    [InlineData("/segment?x", "(?i)^/segment\\?x/?$")]
+    [InlineData("/segment|x", "(?i)^/segment\\|x/?$")]
+    [InlineData("/segment[x", "(?i)^/segment\\[x/?$")]
+    [InlineData("/segment{x", "(?i)^/segment\\{x/?$")]
+    [InlineData("/segment(x", "(?i)^/segment\\(x/?$")]
+    [InlineData("/segment)x", "(?i)^/segment\\)x/?$")]
+    [InlineData("/segment^x", "(?i)^/segment\\^x/?$")]
+    [InlineData("/segment$x", "(?i)^/segment\\$x/?$")]
+    [InlineData("/segment.x", "(?i)^/segment\\.x/?$")]
+    [InlineData("/segment#x", "(?i)^/segment\\#x/?$")]
+    [InlineData("/segment x", "(?i)^/segment\\ x/?$")]
+    public void WhenSegmentContainsRegexCharacters_CharactersAreEscaped(string value, string expected)
+    {
+        var actual = new RouteTemplate(value);
+        actual.Pattern.ToString().ShouldBe(expected);
+    }
+
+    [Theory]
     [InlineData("", @"^.*$")]
-    [InlineData("^[a-z]$", "^[a-z]$")]
-    [InlineData("/api/resource/id", "(?i)^/api/resource/id$")]
-    [InlineData("/api/resource/{id}", "(?i)^/api/resource/([^/]+)$")]
-    [InlineData("/api/resource/{id}/list", "(?i)^/api/resource/([^/]+)/list$")]
-    [InlineData("/api/resource/{id}/{value}", "(?i)^/api/resource/([^/]+)/([^/]+)$")]
-    [InlineData("/api/resource/{id:length(10)}", @"(?i)^/api/resource/([^/]{10})$")]
-    [InlineData("/api/resource/{id:length(1,10)}", @"(?i)^/api/resource/([^/]{1,10})$")]
-    [InlineData("/api/resource/{id:max(10)}", @"(?i)^/api/resource/([^/]{,10})$")]
-    [InlineData("/api/resource/{id:maxlength(10)}", @"(?i)^/api/resource/([^/]{,10})$")]
-    [InlineData("/api/resource/{id:min(10)}", @"(?i)^/api/resource/([^/]{10,})$")]
-    [InlineData("/api/resource/{id:minlength(10)}", @"(?i)^/api/resource/([^/]{10,})$")]
-    [InlineData("/api/resource/{id:numeric:length(10)}", @"(?i)^/api/resource/(\d{10})$")]
-    [InlineData("/api/resource/{id:num:length(10)}", @"(?i)^/api/resource/(\d{10})$")]
-    [InlineData("/api/resource/{id:num:length(1,10)}", @"(?i)^/api/resource/(\d{1,10})$")]
-    [InlineData("/api/resource/{id:num:length(10,1)}", @"(?i)^/api/resource/(\d{1,10})$")]
-    [InlineData("/api/resource/{id:num:max(10)}", @"(?i)^/api/resource/(\d{,10})$")]
-    [InlineData("/api/resource/{id:num:maxlength(10)}", @"(?i)^/api/resource/(\d{,10})$")]
-    [InlineData("/api/resource/{id:num:min(10)}", @"(?i)^/api/resource/(\d{10,})$")]
-    [InlineData("/api/resource/{id:num:minlength(10)}", @"(?i)^/api/resource/(\d{10,})$")]
+    [InlineData("^[a-z]/?$", "^[a-z]/?$")]
+    [InlineData("/api/resource/id", "(?i)^/api/resource/id/?$")]
+    [InlineData("/api/resource/{id}", "(?i)^/api/resource/([^/]+)/?$")]
+    [InlineData("/api/resource/{id}/list", "(?i)^/api/resource/([^/]+)/list/?$")]
+    [InlineData("/api/resource/{id}/{value}", "(?i)^/api/resource/([^/]+)/([^/]+)/?$")]
+    [InlineData("/api/resource/{id:length(10)}", @"(?i)^/api/resource/([^/]{10})/?$")]
+    [InlineData("/api/resource/{id:length(1,10)}", @"(?i)^/api/resource/([^/]{1,10})/?$")]
+    [InlineData("/api/resource/{id:max(10)}", @"(?i)^/api/resource/([^/]{,10})/?$")]
+    [InlineData("/api/resource/{id:maxlength(10)}", @"(?i)^/api/resource/([^/]{,10})/?$")]
+    [InlineData("/api/resource/{id:min(10)}", @"(?i)^/api/resource/([^/]{10,})/?$")]
+    [InlineData("/api/resource/{id:minlength(10)}", @"(?i)^/api/resource/([^/]{10,})/?$")]
+    [InlineData("/api/resource/{id:numeric:length(10)}", @"(?i)^/api/resource/(\d{10})/?$")]
+    [InlineData("/api/resource/{id:num:length(10)}", @"(?i)^/api/resource/(\d{10})/?$")]
+    [InlineData("/api/resource/{id:num:length(1,10)}", @"(?i)^/api/resource/(\d{1,10})/?$")]
+    [InlineData("/api/resource/{id:num:length(10,1)}", @"(?i)^/api/resource/(\d{1,10})/?$")]
+    [InlineData("/api/resource/{id:num:max(10)}", @"(?i)^/api/resource/(\d{,10})/?$")]
+    [InlineData("/api/resource/{id:num:maxlength(10)}", @"(?i)^/api/resource/(\d{,10})/?$")]
+    [InlineData("/api/resource/{id:num:min(10)}", @"(?i)^/api/resource/(\d{10,})/?$")]
+    [InlineData("/api/resource/{id:num:minlength(10)}", @"(?i)^/api/resource/(\d{10,})/?$")]
     public void ConvertsTemplateToRegexCorrectly(string pattern, string expected)
     {
         var actual = new RouteTemplate(pattern);
@@ -90,7 +113,7 @@ public class RouteTemplateTests
         var pattern = @"/segment/{id:custom}";
 
         var template = new RouteTemplate(pattern);
-        template.Pattern.ToString().ShouldBe(@"(?i)^/segment/(\d{2}[a-z]{2}\d{2})$");
+        template.Pattern.ToString().ShouldBe(@"(?i)^/segment/(\d{2}[a-z]{2}\d{2})/?$");
 
         var actual = template.Matches(route);
         actual.ShouldBe(expected);

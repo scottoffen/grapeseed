@@ -77,7 +77,7 @@ public partial class RouteTemplate
 {
     private static readonly string CaseInsensitive = "(?i)";
     private static readonly string RegexPrefix = $"{CaseInsensitive}^";
-    private static readonly string RegexSuffix = "$";
+    private static readonly string RegexSuffix = "/?$";
 
     /// <summary>
     /// The default regular expression.
@@ -112,7 +112,7 @@ public partial class RouteTemplate
         // constraints, use a regular expression with no matching groups
         if (!pattern.Contains("{"))
         {
-            Pattern = new($"{RegexPrefix}{pattern}{RegexSuffix}");
+            Pattern = new($"{RegexPrefix}{Regex.Escape(pattern)}{RegexSuffix}");
             return;
         }
 
@@ -144,7 +144,7 @@ public partial class RouteTemplate
             // Segment is not a parameterized route constraint
             else
             {
-                builder.Append(segment);
+                builder.Append(Regex.Escape(segment));
             }
         });
 
