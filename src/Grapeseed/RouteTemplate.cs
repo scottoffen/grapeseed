@@ -1,4 +1,4 @@
-using System.Text;
+﻿using System.Text;
 using System.Text.RegularExpressions;
 using Grapevine.Exceptions;
 
@@ -52,13 +52,13 @@ public interface IRouteTemplate
 
 public partial class RouteTemplate : IRouteTemplate
 {
-    public HashSet<string> Keys { get; } = new HashSet<string>();
+    public HashSet<string> Keys { get; } = new();
 
     public int Parameters => Keys.Count;
 
     public Regex Pattern { get; protected set; } = Default;
 
-    public int Segments { get; protected set; } = 0;
+    public int Segments { get; protected set; }
 
     public RouteTemplate(string pattern)
     {
@@ -75,9 +75,9 @@ public partial class RouteTemplate : IRouteTemplate
 
 public partial class RouteTemplate
 {
-    private static readonly string CaseInsensitive = "(?i)";
-    private static readonly string RegexPrefix = $"{CaseInsensitive}^";
-    private static readonly string RegexSuffix = "/?$";
+    private static readonly string caseInsensitive = "(?i)";
+    private static readonly string regexPrefix = $"{caseInsensitive}^";
+    private static readonly string regexSuffix = "/?$";
 
     /// <summary>
     /// The default regular expression.
@@ -112,13 +112,13 @@ public partial class RouteTemplate
         // constraints, use a regular expression with no matching groups
         if (!pattern.Contains("{"))
         {
-            Pattern = new($"{RegexPrefix}{Regex.Escape(pattern)}{RegexSuffix}");
+            Pattern = new($"{regexPrefix}{Regex.Escape(pattern)}{regexSuffix}");
             return;
         }
 
         // Otherwise, parse the pattern and create a regular expression
         // for each parameterized route constraint
-        var builder = new StringBuilder(RegexPrefix);
+        var builder = new StringBuilder(regexPrefix);
 
         segments.ToList().ForEach(segment =>
         {
@@ -148,7 +148,7 @@ public partial class RouteTemplate
             }
         });
 
-        builder.Append(RegexSuffix);
+        builder.Append(regexSuffix);
         Pattern = new(builder.ToString());
     }
 }

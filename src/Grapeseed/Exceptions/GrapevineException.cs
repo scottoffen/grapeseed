@@ -1,6 +1,6 @@
-namespace Grapevine.Exceptions;
+﻿namespace Grapevine.Exceptions;
 
 public abstract class GrapevineException : Exception
 {
-    public GrapevineException(string message) : base(message) { }
+    protected GrapevineException(string message) : base(message) { }
 }
