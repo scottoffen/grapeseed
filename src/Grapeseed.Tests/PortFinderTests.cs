@@ -1,4 +1,6 @@
-﻿namespace Grapeseed.Tests;
+﻿using Grapevine.Exceptions;
+
+namespace Grapeseed.Tests;
 
 public class PortFinderTests
 {
@@ -33,9 +35,9 @@ public class PortFinderTests
     [Fact]
     public void WhenNoMatchingPortIsFound_ThrowsException()
     {
-        var firstPortInUse = _portsInUse.First();
+        var firstPortInUse = _portsInUse[0];
 
-        Should.Throw<IndexOutOfRangeException>(() =>
+        Should.Throw<NoOpenPortFoundException>(() =>
         {
             _ = PortFinder.FindNextLocalOpenPort(firstPortInUse, firstPortInUse);
         });
@@ -74,7 +76,7 @@ public class PortFinderTests
     [Fact]
     public void FindNextLocalOpenPort_AscDescReturnsDifferentValues()
     {
-        var startIndex = _portsInUse.First();
+        var startIndex = _portsInUse[0];
         var endIndex = 0;
 
         foreach (var p in _portsInUse.Skip(1))

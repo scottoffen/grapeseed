@@ -1,4 +1,4 @@
-using Grapevine.Exceptions;
+﻿using Grapevine.Exceptions;
 
 namespace Grapevine;
 
@@ -6,8 +6,8 @@ public delegate string RouteConstraintResolver(IEnumerable<string> args);
 
 public static class RouteConstraints
 {
-    private static readonly Dictionary<string, RouteConstraintResolver> _resolvers = new();
-    private static readonly HashSet<string> _protectedKeys = new();
+    private static readonly Dictionary<string, RouteConstraintResolver> resolvers = new();
+    private static readonly HashSet<string> protectedKeys;
 
     /// <summary>
     /// The default pattern used when no resolver is specified or can be found for the constraint.
@@ -17,19 +17,19 @@ public static class RouteConstraints
 
     static RouteConstraints()
     {
-        _resolvers.Add("alpha", AlphaResolver);
-        _resolvers.Add("alphanum", AlphaNumericResolver);
-        _resolvers.Add("alphanumeric", AlphaNumericResolver);
-        _resolvers.Add("guid", GuidResolver);
-        _resolvers.Add("length", LengthResolver);
-        _resolvers.Add("max", LengthResolver);
-        _resolvers.Add("maxlength", LengthResolver);
-        _resolvers.Add("min", LengthResolver);
-        _resolvers.Add("minlength", LengthResolver);
-        _resolvers.Add("num", NumericResolver);
-        _resolvers.Add("numeric", NumericResolver);
+        resolvers.Add("alpha", AlphaResolver);
+        resolvers.Add("alphanum", AlphaNumericResolver);
+        resolvers.Add("alphanumeric", AlphaNumericResolver);
+        resolvers.Add("guid", GuidResolver);
+        resolvers.Add("length", LengthResolver);
+        resolvers.Add("max", LengthResolver);
+        resolvers.Add("maxlength", LengthResolver);
+        resolvers.Add("min", LengthResolver);
+        resolvers.Add("minlength", LengthResolver);
+        resolvers.Add("num", NumericResolver);
+        resolvers.Add("numeric", NumericResolver);
 
-        _protectedKeys = _resolvers.Keys.ToHashSet();
+        protectedKeys = resolvers.Keys.ToHashSet();
     }
 
     /// <summary>
@@ -39,14 +39,15 @@ public static class RouteConstraints
     /// <returns>A regular expression partial for the specified route constraint.</returns>
     public static string Resolve(IEnumerable<string> constraints)
     {
+        constraints = constraints.ToList();
         if (!constraints.Any()) return DefaultPattern;
 
         var key = constraints.First().Contains('(')
             ? constraints.First()[..constraints.First().IndexOf('(')]
             : constraints.First();
 
-        var resolver = _resolvers.ContainsKey(key)
-            ? _resolvers[key]
+        var resolver = resolvers.ContainsKey(key)
+            ? resolvers[key]
             : DefaultResolver;
 
         return resolver.Invoke(constraints);
@@ -60,8 +61,8 @@ public static class RouteConstraints
     public static void AddResolver(string key, RouteConstraintResolver resolver)
     {
         if (string.IsNullOrWhiteSpace(key)) throw new ArgumentException($"Unable to add resolver: {nameof(key)} cannot be null, empty or whitespace");
-        if (_protectedKeys.Contains(key)) throw new ArgumentException($"Unable to add resolver: {key} is a protected key name and cannot be overridden or replaced.");
-        _resolvers[key] = resolver;
+        if (protectedKeys.Contains(key)) throw new ArgumentException($"Unable to add resolver: {key} is a protected key name and cannot be overridden or replaced.");
+        resolvers[key] = resolver;
     }
 
     /// <summary>
@@ -71,6 +72,7 @@ public static class RouteConstraints
     /// <returns></returns>
     private static string AlphaResolver(IEnumerable<string> args)
     {
+        args = args.ToList();
         var key = args.First();
         var modifiers = args.Skip(1).ToList();
 
@@ -88,6 +90,7 @@ public static class RouteConstraints
     /// <returns></returns>
     private static string AlphaNumericResolver(IEnumerable<string> args)
     {
+        args = args.ToList();
         var key = args.First().Contains("alphanumeric")
             ? args.First().Replace("alphanumeric", "length")
             : args.First().Replace("alphanum", "length");
@@ -139,6 +142,7 @@ public static class RouteConstraints
     /// <returns></returns>
     private static string NumericResolver(IEnumerable<string> args)
     {
+        args = args.ToList();
         var key = args.First().Contains("numeric")
             ? args.First().Replace("numeric", "length")
             : args.First().Replace("num", "length");
@@ -174,7 +178,7 @@ public static class RouteConstraints
                 .TrimStart('(')
                 .TrimEnd(')')
                 .Split(',')
-                .Select(s => int.Parse(s))
+                .Select(int.Parse)
                 .OrderBy(i => i)
                 .ToList();
 

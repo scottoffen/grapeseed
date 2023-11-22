@@ -1,4 +1,5 @@
-using System.Net.NetworkInformation;
+﻿using System.Net.NetworkInformation;
+using Grapevine.Exceptions;
 
 namespace Grapevine;
 
@@ -18,12 +19,6 @@ public static class PortFinder
     /// </summary>
     /// <value></value>
     public const int MaxPortNumber = 65535;
-
-    /// <summary>
-    /// Error message when no open port is found in the specified range.
-    /// </summary>
-    /// <value></value>
-    public const string NoOpenPortFoundMsg = "No local open ports found in range {0} - {1}";
 
     /// <summary>
     /// Error message when the port number range is invalid.
@@ -53,18 +48,18 @@ public static class PortFinder
         }
 
         // 2. Get a list of all ports that are currently in use
-        var portsInUse = GetPortsInUse();
+        var portsInUse = GetPortsInUse().ToList();
 
         // 3. Create the condition and iterator for the for loop
         var useAscending = startIndex <= endIndex;
 
         Func<int, bool> checkCondition = useAscending
-            ? (int i) => i <= endIndex
-            : (int i) => i >= endIndex;
+            ? i => i <= endIndex
+            : i => i >= endIndex;
 
         Func<int, int> incrementIterator = useAscending
-            ? (int i) => ++i
-            : (int i) => --i;
+            ? i => ++i
+            : i => --i;
 
         // 4. Search for next unused port
         for (var i = startIndex; checkCondition(i); i = incrementIterator(i))
@@ -74,11 +69,10 @@ public static class PortFinder
         }
 
         // 5. Throw exception if not matching port was found
-        throw new IndexOutOfRangeException(string.Format(
-            NoOpenPortFoundMsg,
+        throw new NoOpenPortFoundException(
             Math.Min(startIndex, endIndex),
             Math.Max(startIndex, endIndex)
-        ));
+        );
     }
 
     public static IEnumerable<int> GetPortsInUse()
@@ -94,5 +88,5 @@ public static class PortFinder
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    private static bool IsInRange(this int value) => value >= MinPortNumber && value <= MaxPortNumber;
+    private static bool IsInRange(this int value) => value is >= MinPortNumber and <= MaxPortNumber;
 }
