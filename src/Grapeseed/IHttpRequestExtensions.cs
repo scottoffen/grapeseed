@@ -2,8 +2,6 @@ namespace Grapevine;
 
 public static class IHttpRequestExtensions
 {
-    private static readonly int _startIndex = ContentType.MultipartFormData.ToString().Length;
-
     /// <summary>
     /// Get the boundary value from the request's content type.
     /// </summary>
@@ -11,9 +9,21 @@ public static class IHttpRequestExtensions
     /// <returns></returns>
     public static string GetMultipartBoundary(this IHttpRequest request)
     {
-        return (string.IsNullOrWhiteSpace(request.ContentType) || !request.ContentType.StartsWith(ContentType.MultipartFormData))
-            ? string.Empty
-            : request.ContentType.Substring(_startIndex);
+        if (string.IsNullOrEmpty(request.ContentType))
+        {
+            return string.Empty;
+        }
+
+        if (!request.ContentType.StartsWith(ContentType.MultipartFormData.Value))
+        {
+            return string.Empty;
+        }
+
+        var boundary = request.ContentType.Split(';')
+            .Select(part => part.Trim())
+            .FirstOrDefault(part => part.StartsWith("boundary="))?
+            .Replace("boundary=", "");
+        return boundary ?? string.Empty;
     }
 
     /// <summary>
