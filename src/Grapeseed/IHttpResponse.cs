@@ -8,7 +8,7 @@ public interface IHttpResponse
     /// <summary>
     /// Gets or sets the Encoding for this response's OutputStream
     /// </summary>
-    Encoding ContentEncoding { get; set; }
+    Encoding? ContentEncoding { get; set; }
 
     /// <summary>
     /// Gets or sets an integer to indicate the minimum number of bytes after which content will potentially be compressed before being returned to the client
@@ -23,7 +23,7 @@ public interface IHttpResponse
     /// <summary>
     /// Gets or sets the MIME type of the content returned
     /// </summary>
-    string ContentType { get; set; }
+    string? ContentType { get; set; }
 
     /// <summary>
     /// Gets or sets the collection of cookies returned with the response
@@ -38,7 +38,7 @@ public interface IHttpResponse
     /// <summary>
     /// Gets or sets the redirect location for this response
     /// </summary>
-    string RedirectLocation { get; set; }
+    string? RedirectLocation { get; set; }
 
     /// <summary>
     /// Gets a value indicating whether a response has been sent to this request

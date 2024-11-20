@@ -9,7 +9,7 @@ public interface IHttpRequest
     /// <summary>
     /// Gets the MIME types accepted by the client
     /// </summary>
-    string[] AcceptTypes { get; }
+    string[]? AcceptTypes { get; }
 
     /// <summary>
     /// Gets the content encoding that can be used with data sent with the request
@@ -24,7 +24,7 @@ public interface IHttpRequest
     /// <summary>
     /// Gets the MIME type of the body data included in the request
     /// </summary>
-    string ContentType { get; }
+    string? ContentType { get; }
 
     /// <summary>
     /// Gets the cookies sent with the request
@@ -52,6 +52,9 @@ public interface IHttpRequest
     /// </summary>
     HttpMethod HttpMethod { get; }
 
+    /// <summary>
+    /// Gets the input stream for the request
+    /// </summary>
     Stream InputStream { get; }
 
     /// <summary>
@@ -82,7 +85,7 @@ public interface IHttpRequest
     /// <summary>
     /// Gets the URL information (without the host and port) requested by the client.
     /// </summary>
-    string RawUrl { get; }
+    string? RawUrl { get; }
 
     /// <summary>
     /// Gets the client IP address and port number from which the request originated
@@ -92,12 +95,12 @@ public interface IHttpRequest
     /// <summary>
     /// Gets the Uri object requested by the client
     /// </summary>
-    Uri Url { get; }
+    Uri? Url { get; }
 
     /// <summary>
     /// Gets the Uniform Resource Identifier (URI) of the resource that referred the client to the server
     /// </summary>
-    Uri UrlReferrer { get; }
+    Uri? UrlReferrer { get; }
 
     /// <summary>
     /// Gets the user agent presented by the client
@@ -117,5 +120,5 @@ public interface IHttpRequest
     /// <summary>
     /// Gets the natural languages that are preferred for the response
     /// </summary>
-    string[] UserLanguages { get; }
+    string[]? UserLanguages { get; }
 }
