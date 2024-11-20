@@ -72,27 +72,27 @@ public interface IRestServer : IDisposable
     /// <summary>
     /// Raised after the server has finished starting.
     /// </summary>
-    event ServerEventHandler AfterStarting;
+    event ServerEventHandler? AfterStarting;
 
     /// <summary>
     /// Raised after the server has finished stopping.
     /// </summary>
-    event ServerEventHandler AfterStopping;
+    event ServerEventHandler? AfterStopping;
 
     /// <summary>
     /// Raised before the server starts.
     /// </summary>
-    event ServerEventHandler BeforeStarting;
+    event ServerEventHandler? BeforeStarting;
 
     /// <summary>
     /// Raised before the server stops.
     /// </summary>
-    event ServerEventHandler BeforeStopping;
+    event ServerEventHandler? BeforeStopping;
 
     /// <summary>
     /// Raised after an incoming request is received, but before routing the request.
     /// </summary>
-    RequestReceivedEvent OnRequestAsync { get; set; }
+    RequestReceivedEvent? OnRequestAsync { get; set; }
 
     /// <summary>
     /// Starts the server, raising BeforeStart and AfterStart events appropriately.

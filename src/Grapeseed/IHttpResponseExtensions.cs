@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace Grapeseed;
 
 public static class IHttpResponseExtensions
@@ -64,7 +66,8 @@ public static class IHttpResponseExtensions
     /// <returns></returns>
     public static async Task SendResponseAsync(this IHttpResponse response, string content)
     {
-        await response.SendResponseAsync(response.ContentEncoding.GetBytes(content));
+        var encoding = response.ContentEncoding ?? Encoding.UTF8;
+        await response.SendResponseAsync(encoding.GetBytes(content));
     }
 
     /// <summary>
@@ -77,7 +80,8 @@ public static class IHttpResponseExtensions
     public static async Task SendResponseAsync(this IHttpResponse response, HttpStatusCode statusCode, string content)
     {
         response.StatusCode = (int)statusCode;
-        await response.SendResponseAsync(response.ContentEncoding.GetBytes(content));
+        var encoding = response.ContentEncoding ?? Encoding.UTF8;
+        await response.SendResponseAsync(encoding.GetBytes(content));
     }
 
     /// <summary>
