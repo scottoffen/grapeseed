@@ -6,7 +6,7 @@ namespace Grapeseed;
 /// <param name="state"></param>
 /// <param name="token"></param>
 /// <returns></returns>
-public delegate IHttpContext HttpContextFactory(object state, CancellationToken token);
+public delegate IHttpContext HttpContextFactory(object? state, CancellationToken token);
 
 public class ServerOptions
 {
