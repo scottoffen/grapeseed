@@ -53,7 +53,7 @@ public abstract class RouterBase : IRouter
 
     public abstract IRouter Register(IRoute route);
 
-    public abstract void RouteAsync(object state);
+    public abstract void RouteAsync(object? state);
 
     /// <summary>
     /// Asynchronously determines which error handler to invoke and invokes with the given context and exception

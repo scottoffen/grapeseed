@@ -59,5 +59,5 @@ public interface IRouter
     /// Routes the IHttpContext through all enabled registered routes that match the (IHttpContext)state provided
     /// </summary>
     /// <param name="state"></param>
-    void RouteAsync(object state);
+    void RouteAsync(object? state);
 }

@@ -37,7 +37,7 @@ public class Router : RouterBase
         return this;
     }
 
-    public override async void RouteAsync(object state)
+    public override async void RouteAsync(object? state)
     {
         var context = state as IHttpContext;
         if (context == null) return;
