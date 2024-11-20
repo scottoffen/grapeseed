@@ -92,7 +92,7 @@ public interface IRestServer : IDisposable
     /// <summary>
     /// Raised after an incoming request is received, but before routing the request.
     /// </summary>
-    RequestReceivedEvent? OnRequestAsync { get; set; }
+    RequestReceivedEvent OnRequestAsync { get; set; }
 
     /// <summary>
     /// Starts the server, raising BeforeStart and AfterStart events appropriately.
