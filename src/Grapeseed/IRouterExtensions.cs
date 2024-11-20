@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Grapeseed;
+namespace Grapevine;
 
 public static class IRouterExtensions
 {

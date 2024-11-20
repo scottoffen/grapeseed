@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace Grapeseed;
+namespace Grapevine;
 
 /// <summary>
 /// Represents a collection of listener prefixes.

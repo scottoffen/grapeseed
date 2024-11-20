@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace Grapeseed;
+namespace Grapevine;
 
 public class HttpMethod : System.Net.Http.HttpMethod
 {

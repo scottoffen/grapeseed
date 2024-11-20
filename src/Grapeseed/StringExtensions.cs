@@ -1,4 +1,4 @@
-namespace Grapeseed;
+namespace Grapevine;
 
 internal static class StringExtensions
 {

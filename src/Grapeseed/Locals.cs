@@ -1,6 +1,6 @@
 using System.Collections.Concurrent;
 
-namespace Grapeseed;
+namespace Grapevine;
 
 public class Locals : ConcurrentDictionary<object, object?> { }
 

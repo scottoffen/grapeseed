@@ -1,6 +1,6 @@
 using System.Collections.Concurrent;
 
-namespace Grapeseed;
+namespace Grapevine;
 
 public abstract class ContentFolderBase : IContentFolder
 {

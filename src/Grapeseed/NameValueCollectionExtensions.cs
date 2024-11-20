@@ -1,7 +1,7 @@
 using System.Collections.Specialized;
 using System.ComponentModel;
 
-namespace Grapeseed;
+namespace Grapevine;
 
 public static class NameValueCollectionExtensions
 {

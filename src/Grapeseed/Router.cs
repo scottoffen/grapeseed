@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Grapeseed;
+namespace Grapevine;
 
 /// <summary>
 /// Delegate for <see cref="RouterBase.GlobalErrorHandlers"/> and <see cref="RouterBase.LocalErrorHandlers"/>

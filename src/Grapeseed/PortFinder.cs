@@ -1,6 +1,6 @@
 using System.Net.NetworkInformation;
 
-namespace Grapeseed;
+namespace Grapevine;
 
 /// <summary>
 /// Utilities for finding open ports on the local machine

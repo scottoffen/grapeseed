@@ -1,4 +1,4 @@
-namespace Grapeseed;
+namespace Grapevine;
 
 /// <summary>
 /// <para>Method attribute for defining a RestRoute</para>

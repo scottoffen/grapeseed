@@ -1,7 +1,7 @@
 using System.Net;
 using Microsoft.Extensions.Logging;
 
-namespace Grapeseed;
+namespace Grapevine;
 
 public static class IRestServerExtensions
 {

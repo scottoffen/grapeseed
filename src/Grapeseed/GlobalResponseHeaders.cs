@@ -1,4 +1,4 @@
-namespace Grapeseed;
+namespace Grapevine;
 
 /// <summary>
 /// Represents a global response header

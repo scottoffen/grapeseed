@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Grapeseed;
+namespace Grapevine;
 
 public interface IRoute : IRouteProperties
 {

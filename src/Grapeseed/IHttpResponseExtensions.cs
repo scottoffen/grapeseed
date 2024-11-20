@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace Grapeseed;
+namespace Grapevine;
 
 public static class IHttpResponseExtensions
 {

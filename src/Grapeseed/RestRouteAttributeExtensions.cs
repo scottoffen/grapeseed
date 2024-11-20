@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace Grapeseed;
+namespace Grapevine;
 
 public static class RestRouteAttributeExtensions
 {

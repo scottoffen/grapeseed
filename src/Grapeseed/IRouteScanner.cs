@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Grapeseed;
+namespace Grapevine;
 
 public interface IRouteScanner
 {

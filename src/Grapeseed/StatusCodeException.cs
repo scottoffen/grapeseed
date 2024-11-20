@@ -1,4 +1,4 @@
-namespace Grapeseed;
+namespace Grapevine;
 
 public class StatusCodeException : Exception
 {

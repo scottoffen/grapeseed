@@ -1,6 +1,6 @@
 using System.IO.Compression;
 
-namespace Grapeseed;
+namespace Grapevine;
 
 public delegate Task<byte[]> AsyncCompressionDelegate(byte[] contents);
 

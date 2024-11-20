@@ -1,7 +1,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Grapeseed;
+namespace Grapevine;
 
 public class RouteTemplate : IRouteTemplate
 {

@@ -1,7 +1,7 @@
 using System.Text;
 using System.Reflection;
 
-namespace Grapeseed;
+namespace Grapevine;
 
 public struct ContentType
 {

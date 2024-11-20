@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Grapeseed;
+namespace Grapevine;
 
 /// <summary>
 /// <para>Class attribute for defining a RestResource</para>

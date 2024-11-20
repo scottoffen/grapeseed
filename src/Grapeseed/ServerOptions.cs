@@ -1,4 +1,4 @@
-namespace Grapeseed;
+namespace Grapevine;
 
 /// <summary>
 /// Delegate for the <see cref="ServerOptions.HttpContextFactory"/> factory

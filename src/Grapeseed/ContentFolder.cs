@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
 
-namespace Grapeseed;
+namespace Grapevine;
 
 public class ContentFolder : ContentFolderBase, IContentFolder, IDisposable
 {

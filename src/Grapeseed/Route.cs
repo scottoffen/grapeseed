@@ -2,7 +2,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Grapeseed;
+namespace Grapevine;
 
 public class Route : RouteBase, IRoute
 {

@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 
-namespace Grapeseed;
+namespace Grapevine;
 
 /// <summary>
 /// The default logger factory.
